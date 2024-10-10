@@ -9,7 +9,7 @@ jobs:
             - name: checkout
               uses: actions/checkout@v4
             - name: build image
-              run: docker ./ -t potenselit/er-app-ui:latest
+              run: docker build ./ -t potenselit/er-app-ui:latest
             - name: push image to docker hub
               run: |
                 docker push potenselit/er-app-ui:latest
