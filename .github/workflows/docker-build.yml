@@ -1,0 +1,16 @@
+name: Build and publish image to docker
+on:
+    [workflow_dispatch]
+
+jobs:
+    publish_images:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v4
+            - name: build image
+              run: docker ./ -t potenselit/er-app-ui:latest
+            - name: push image to docker hub
+              run: |
+                docker push potenselit/er-app-ui:latest
+
