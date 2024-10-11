@@ -8,7 +8,7 @@ RUN npx nx build erhome --configuration=development
 FROM nginx:latest
 EXPOSE 80
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY custom_er.conf /etc/nginx/conf.d/custom_er.conf
+COPY custom_er.conf /etc/nginx/conf.d
 COPY --from=builder /app/dist/apps/erhome /usr/share/nginx/html
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
