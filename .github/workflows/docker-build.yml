@@ -8,10 +8,15 @@ jobs:
         steps:
             - name: checkout
               uses: actions/checkout@v4
-            - name: build image
+            - name: Build image
               run: docker build ./ -t potenselit/er-app-ui:latest
-            - name: push image to docker hub
+            - name: Push image to Docker Hub
               run: |
                 docker login -u potenselit -p ${{ secrets.DOCKER_HUB_TOKEN }}
                 docker push potenselit/er-app-ui:latest
+            - name: Push image for AWS ECR
+              run: |
+                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 418272754675.dkr.ecr.us-east-1.amazonaws.com
+                docker tag potenselit/er-app-ui:latest 418272754675.dkr.ecr.us-east-1.amazonaws.com/er-app-ui:latest
+                docker push 418272754675.dkr.ecr.us-east-1.amazonaws.com/er-app-ui:latest
 
