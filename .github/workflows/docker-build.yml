@@ -1,4 +1,4 @@
-name: Build and publish image to docker
+name: Build and Publish Image to Docker Hub
 on:
     [workflow_dispatch]
 
@@ -6,17 +6,13 @@ jobs:
     publish_images:
         runs-on: ubuntu-latest
         steps:
-            - name: checkout
-              uses: actions/checkout@v4
-            - name: Build image
-              run: docker build ./ -t potenselit/er-app-ui:latest
-            - name: Push image to Docker Hub
-              run: |
-                docker login -u potenselit -p ${{ secrets.DOCKER_HUB_TOKEN }}
-                docker push potenselit/er-app-ui:latest
-            - name: Push image for AWS ECR
-              run: |
-                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 418272754675.dkr.ecr.us-east-1.amazonaws.com
-                docker tag potenselit/er-app-ui:latest 418272754675.dkr.ecr.us-east-1.amazonaws.com/er-app-ui:latest
-                docker push 418272754675.dkr.ecr.us-east-1.amazonaws.com/er-app-ui:latest
+          - name: Checkout the code
+            uses: actions/checkout@v4
 
+          - name: Build image
+            run: docker build ./ -t potenselit/er-app-ui:latest
+
+          - name: Push image to Docker Hub
+            run: |
+              docker login -u potenselit -p ${{ secrets.DOCKER_HUB_TOKEN }}
+              docker push potenselit/er-app-ui:latest
